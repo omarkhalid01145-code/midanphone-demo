@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ميدان فون — قارن بين الموبايلات، اعرف المواصفات والأسعار، وبيع أو اشتري أو بدّل في مصر.">
+  <title>ميدان فون | كل الموبايلات في ميدان واحد</title>
+  <style>
+    :root {
+      --ink: #14213d;
+      --ink-2: #273557;
+      --muted: #6d7690;
+      --paper: #f7f8fc;
+      --card: rgba(255,255,255,.92);
+      --line: #e7e9f1;
+      --orange: #ff6b2c;
+      --orange-2: #ff8f3f;
+      --green: #12b886;
+      --blue: #4f6df5;
+      --shadow: 0 20px 55px rgba(20,33,61,.10);
+      --shadow-sm: 0 8px 24px rgba(20,33,61,.08);
+      --radius: 24px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Tahoma, Arial, system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 8% 8%, rgba(79,109,245,.10), transparent 28rem),
+        radial-gradient(circle at 90% 30%, rgba(255,107,44,.10), transparent 24rem),
+        var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1180px, calc(100% - 32px)); margin-inline: auto; }
+    .top-note {
+      background: var(--ink);
+      color: #fff;
+      text-align: center;
+      padding: 9px 16px;
+      font-size: 13px;
+    }
+    .top-note strong { color: #ffb48d; }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(247,248,252,.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(231,233,241,.8);
+    }
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .logo { display: inline-flex; align-items: center; gap: 10px; flex: 0 0 auto; }
+    .logo-mark {
+      width: 43px; height: 43px; border-radius: 14px;
+      display: grid; place-items: center;
+      background: linear-gradient(145deg, var(--orange), #ff9f4a);
+      color: #fff; box-shadow: 0 10px 25px rgba(255,107,44,.28);
+      transform: rotate(-5deg);
+    }
+    .logo-mark svg { transform: rotate(5deg); }
+    .logo-name { font-size: 20px; font-weight: 900; line-height: 1.1; }
+    .logo-name small { display: block; color: var(--muted); font-size: 9px; letter-spacing: 1.8px; margin-top: 4px; }
+    nav { display: flex; gap: 22px; align-items: center; flex: 1; }
+    nav a { font-size: 14px; font-weight: 700; color: var(--ink-2); }
+    nav a:hover { color: var(--orange); }
+    .nav-actions { display: flex; align-items: center; gap: 9px; }
+    .icon-btn, .outline-btn, .primary-btn {
+      border: 0; border-radius: 13px; transition: .2s ease;
+    }
+    .icon-btn { width: 42px; height: 42px; background: #fff; color: var(--ink); box-shadow: var(--shadow-sm); }
+    .outline-btn { padding: 12px 16px; background: transparent; color: var(--ink); border: 1px solid var(--line); font-weight: 800; }
+    .primary-btn { padding: 13px 20px; background: var(--orange); color: white; font-weight: 900; box-shadow: 0 12px 24px rgba(255,107,44,.24); }
+    .primary-btn:hover { transform: translateY(-2px); background: #f45c1f; }
+    .menu-btn { display: none; }
+
+    .hero { padding: 58px 0 34px; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.06fr .94fr; align-items: center; gap: 42px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--orange); font-weight: 900; font-size: 13px; }
+    .eyebrow::before { content: ""; width: 24px; height: 3px; background: currentColor; border-radius: 99px; }
+    h1 { font-size: clamp(38px, 5vw, 70px); line-height: 1.12; margin: 18px 0; letter-spacing: -2.4px; }
+    h1 span { color: var(--orange); position: relative; }
+    h1 span::after { content: ""; position: absolute; inset-inline: 0; bottom: -5px; height: 8px; background: rgba(255,107,44,.16); border-radius: 50%; }
+    .hero-copy > p { max-width: 630px; color: var(--muted); font-size: 17px; line-height: 1.9; margin: 0 0 25px; }
+    .search-box {
+      background: #fff; padding: 8px; border-radius: 19px; display: flex; align-items: center; gap: 9px;
+      box-shadow: var(--shadow); border: 1px solid rgba(231,233,241,.9); max-width: 650px;
+    }
+    .search-icon { padding-inline-start: 11px; color: var(--muted); }
+    .search-box input { border: 0; outline: 0; padding: 13px 4px; min-width: 0; flex: 1; color: var(--ink); background: transparent; }
+    .search-box button { border: 0; background: var(--ink); color: #fff; border-radius: 13px; padding: 13px 22px; font-weight: 900; }
+    .quick-links { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 17px; color: var(--muted); font-size: 12px; }
+    .quick-links button { border: 0; color: var(--ink-2); background: #fff; padding: 7px 11px; border-radius: 9px; box-shadow: 0 5px 16px rgba(20,33,61,.06); }
+    .stats { display: flex; gap: 32px; margin-top: 32px; }
+    .stat b { display: block; font-size: 24px; color: var(--ink); }
+    .stat span { color: var(--muted); font-size: 12px; }
+
+    .hero-visual { min-height: 510px; position: relative; display: grid; place-items: center; }
+    .visual-orbit {
+      width: min(460px, 92vw); aspect-ratio: 1; border-radius: 50%;
+      background: linear-gradient(145deg, #192747, #31416b); position: relative;
+      box-shadow: 0 35px 90px rgba(20,33,61,.24), inset 0 0 0 1px rgba(255,255,255,.08);
+    }
+    .visual-orbit::before, .visual-orbit::after {
+      content: ""; position: absolute; border-radius: 50%; border: 1px solid rgba(255,255,255,.10);
+    }
+    .visual-orbit::before { inset: 34px; }
+    .visual-orbit::after { inset: 78px; }
+    .phone {
+      position: absolute; border: 5px solid #10182b; border-radius: 32px; overflow: hidden;
+      box-shadow: 0 28px 45px rgba(4,8,18,.44); background: #0c1120;
+    }
+    .phone-main { width: 190px; height: 390px; left: 50%; top: 50%; transform: translate(-40%, -50%) rotate(8deg); z-index: 2; }
+    .phone-side { width: 148px; height: 310px; left: 12%; top: 24%; transform: rotate(-14deg); z-index: 1; }
+    .screen { width: 100%; height: 100%; background: radial-gradient(circle at 70% 28%, #ffb076, transparent 25%), radial-gradient(circle at 20% 65%, #5a7dff, transparent 34%), linear-gradient(160deg,#182749,#080d1b); position: relative; }
+    .screen.alt { background: radial-gradient(circle at 70% 25%, #58dfb0, transparent 24%), radial-gradient(circle at 20% 70%, #3767ec, transparent 35%), linear-gradient(160deg,#12243e,#070c19); }
+    .island { position: absolute; top: 11px; left: 50%; transform: translateX(-50%); width: 62px; height: 18px; border-radius: 99px; background: #070b14; }
+    .screen-time { color: white; position: absolute; top: 26%; inset-inline: 0; text-align: center; font-size: 34px; font-weight: 800; }
+    .screen-time small { display: block; font-size: 9px; opacity: .75; margin-bottom: 4px; }
+    .float-pill {
+      position: absolute; background: rgba(255,255,255,.94); border-radius: 16px; padding: 12px 14px; box-shadow: var(--shadow);
+      display: flex; gap: 10px; align-items: center; z-index: 4; font-size: 12px; font-weight: 800;
+    }
+    .float-pill em { font-style: normal; width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; color: white; }
+    .pill-1 { top: 9%; right: -3%; }
+    .pill-1 em { background: var(--green); }
+    .pill-2 { bottom: 9%; left: -4%; }
+    .pill-2 em { background: var(--orange); }
+    .pill-3 { bottom: 15%; right: 0; }
+    .pill-3 em { background: var(--blue); }
+
+    .trust-strip { margin: 22px auto 64px; }
+    .trust-card { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 18px 24px; display: grid; grid-template-columns: repeat(4, 1fr); box-shadow: var(--shadow-sm); }
+    .trust-item { display: flex; align-items: center; justify-content: center; gap: 11px; padding: 4px 14px; border-inline-end: 1px solid var(--line); }
+    .trust-item:last-child { border: 0; }
+    .trust-item i { width: 37px; height: 37px; border-radius: 12px; display: grid; place-items: center; background: #fff1eb; color: var(--orange); font-style: normal; }
+    .trust-item b { font-size: 13px; }
+    .trust-item small { display: block; color: var(--muted); font-size: 10px; margin-top: 3px; }
+
+    section { padding: 44px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 24px; }
+    .section-head h2 { margin: 7px 0 0; font-size: clamp(27px, 3.4vw, 40px); letter-spacing: -1px; }
+    .section-head p { margin: 0; color: var(--muted); line-height: 1.7; }
+    .source-badge { display: inline-flex; gap: 7px; align-items: center; color: var(--green); font-weight: 800; font-size: 11px; }
+    .source-badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 5px rgba(18,184,134,.1); }
+
+    .os-gates { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 25px; }
+    .os-card { border: 0; text-align: right; border-radius: 22px; padding: 22px; overflow: hidden; position: relative; min-height: 138px; color: #fff; }
+    .os-card.apple { background: linear-gradient(135deg,#1a2130,#3b465c); }
+    .os-card.android { background: linear-gradient(135deg,#08795f,#17a67e); }
+    .os-card::after { content: ""; position: absolute; width: 190px; height: 190px; border-radius: 50%; background: rgba(255,255,255,.08); left: -38px; top: -65px; }
+    .os-card b { display: block; font-size: 21px; margin: 8px 0; }
+    .os-card span { opacity: .8; font-size: 12px; }
+    .os-icon { width: 42px; height: 42px; border-radius: 14px; display: grid; place-items: center; background: rgba(255,255,255,.13); font-size: 21px; }
+
+    .brands { display: flex; gap: 9px; overflow-x: auto; padding: 3px 2px 15px; scrollbar-width: thin; }
+    .brand-chip { white-space: nowrap; border: 1px solid var(--line); background: #fff; color: var(--ink-2); border-radius: 12px; padding: 11px 15px; font-weight: 800; font-size: 12px; }
+    .brand-chip.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .filters { display: grid; grid-template-columns: 1.6fr repeat(3, 1fr) auto; gap: 10px; background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 12px; box-shadow: var(--shadow-sm); margin-bottom: 24px; }
+    .filter-input, .filter-select { width: 100%; border: 1px solid var(--line); background: #f9fafc; border-radius: 12px; padding: 12px 13px; outline: none; color: var(--ink); }
+    .filter-input:focus, .filter-select:focus { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(255,107,44,.10); }
+    .reset-btn { border: 0; background: #fff0e9; color: var(--orange); border-radius: 12px; padding: 0 15px; font-weight: 900; }
+
+    .result-bar { display: flex; justify-content: space-between; align-items: center; margin: 0 2px 15px; color: var(--muted); font-size: 12px; }
+    .device-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 17px; }
+    .device-card { background: var(--card); border: 1px solid var(--line); border-radius: 22px; overflow: hidden; box-shadow: 0 10px 30px rgba(20,33,61,.055); transition: .24s ease; position: relative; }
+    .device-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: rgba(255,107,44,.24); }
+    .device-media { min-height: 220px; display: grid; place-items: center; position: relative; background: linear-gradient(155deg,#f5f7fb,#edf0f7); overflow: hidden; }
+    .device-media::after { content: ""; width: 135px; height: 28px; background: rgba(20,33,61,.12); border-radius: 50%; filter: blur(10px); position: absolute; bottom: 20px; }
+    .phone-art { width: 145px; height: 190px; position: relative; z-index: 1; object-fit: contain; transition: transform .25s ease; }
+    .device-card:hover .phone-art { transform: scale(1.04) rotate(-1deg); }
+    .badge { position: absolute; z-index: 2; top: 13px; right: 13px; background: var(--orange); color: #fff; padding: 6px 9px; border-radius: 9px; font-size: 9px; font-weight: 900; }
+    .badge.green { background: var(--green); }
+    .favorite { position: absolute; z-index: 3; top: 12px; left: 12px; width: 34px; height: 34px; border: 0; background: rgba(255,255,255,.9); border-radius: 10px; color: var(--muted); box-shadow: 0 5px 15px rgba(20,33,61,.08); }
+    .favorite.active { color: #e43a56; }
+    .device-body { padding: 17px; }
+    .brand-label { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .8px; }
+    .device-body h3 { margin: 6px 0 12px; font-size: 16px; direction: ltr; text-align: right; }
+    .specs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+    .spec { background: #f7f8fb; border-radius: 9px; padding: 8px; font-size: 9px; color: var(--muted); }
+    .spec b { display: block; color: var(--ink-2); font-size: 10px; margin-top: 3px; direction: ltr; }
+    .price-row { display: flex; justify-content: space-between; align-items: end; border-top: 1px solid var(--line); padding-top: 13px; }
+    .price small { color: var(--muted); display: block; font-size: 9px; }
+    .price b { font-size: 16px; }
+    .compare-btn { border: 1px solid var(--line); background: #fff; color: var(--ink); border-radius: 10px; padding: 9px 11px; font-weight: 900; font-size: 10px; }
+    .compare-btn.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+    .review-btn { width: 100%; border: 0; background: #fff0e9; color: var(--orange); border-radius: 11px; padding: 11px; font-weight: 900; font-size: 11px; margin-bottom: 11px; }
+    .review-btn:hover { background: var(--orange); color: #fff; }
+    .empty { grid-column: 1/-1; text-align: center; padding: 60px 20px; background: #fff; border: 1px dashed #cfd4e2; border-radius: 22px; color: var(--muted); }
+    .empty b { display: block; color: var(--ink); font-size: 20px; margin-bottom: 8px; }
+
+    .market { padding: 68px 0; }
+    .market-card { background: linear-gradient(135deg,#15213d,#26385f); color: #fff; border-radius: 30px; overflow: hidden; display: grid; grid-template-columns: 1.05fr .95fr; min-height: 340px; position: relative; }
+    .market-card::after { content: ""; position: absolute; width: 420px; height: 420px; border-radius: 50%; background: rgba(255,107,44,.11); left: -100px; top: -190px; }
+    .market-copy { padding: 55px; position: relative; z-index: 2; }
+    .market-copy h2 { font-size: clamp(30px,4vw,48px); margin: 15px 0; }
+    .market-copy p { color: #c8cede; line-height: 1.8; max-width: 540px; }
+    .market-actions { display: flex; gap: 10px; margin-top: 24px; }
+    .market-actions .outline-btn { color: #fff; border-color: rgba(255,255,255,.22); }
+    .market-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-content: center; padding: 36px 45px; position: relative; z-index: 2; }
+    .market-tile { background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.12); border-radius: 18px; padding: 20px; backdrop-filter: blur(8px); }
+    .market-tile i { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 13px; background: var(--orange); font-style: normal; margin-bottom: 14px; }
+    .market-tile b { font-size: 14px; }
+    .market-tile span { display: block; color: #b9c1d4; font-size: 10px; margin-top: 6px; }
+
+    .roadmap { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .road-card { padding: 25px; background: #fff; border: 1px solid var(--line); border-radius: 20px; }
+    .road-num { color: var(--orange); font-weight: 900; font-size: 11px; }
+    .road-card h3 { margin: 10px 0; font-size: 17px; }
+    .road-card p { color: var(--muted); font-size: 12px; line-height: 1.8; margin: 0; }
+
+    footer { margin-top: 60px; background: #101a31; color: #fff; padding: 52px 0 25px; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr repeat(3,1fr); gap: 35px; }
+    .footer-intro p { color: #aeb6c9; line-height: 1.8; font-size: 12px; max-width: 370px; }
+    .footer-col h4 { margin: 0 0 15px; font-size: 13px; }
+    .footer-col a { display: block; color: #aeb6c9; font-size: 11px; margin: 10px 0; }
+    .copyright { border-top: 1px solid rgba(255,255,255,.1); margin-top: 35px; padding-top: 22px; color: #8791a8; display: flex; justify-content: space-between; font-size: 10px; }
+
+    .compare-tray { position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%) translateY(130%); z-index: 40; background: rgba(20,33,61,.96); color: #fff; width: min(680px,calc(100% - 24px)); padding: 11px 13px; border-radius: 18px; box-shadow: 0 25px 65px rgba(10,18,38,.35); display: flex; align-items: center; gap: 12px; transition: .3s ease; backdrop-filter: blur(12px); }
+    .compare-tray.show { transform: translateX(-50%) translateY(0); }
+    .tray-items { display: flex; gap: 7px; flex: 1; overflow: hidden; }
+    .tray-item { display: inline-flex; align-items: center; gap: 7px; background: rgba(255,255,255,.09); padding: 8px 10px; border-radius: 10px; font-size: 10px; white-space: nowrap; }
+    .tray-item button { border: 0; color: #fff; background: transparent; opacity: .7; }
+    .tray-action { border: 0; background: var(--orange); color: #fff; border-radius: 11px; padding: 11px 15px; font-weight: 900; white-space: nowrap; }
+
+    .modal { position: fixed; inset: 0; z-index: 60; background: rgba(10,16,30,.62); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; padding: 20px; }
+    .modal.open { display: flex; }
+    .modal-card { width: min(980px,100%); max-height: 90vh; overflow: auto; background: #fff; border-radius: 24px; box-shadow: 0 35px 90px rgba(0,0,0,.3); }
+    .modal-head { position: sticky; top: 0; background: rgba(255,255,255,.96); z-index: 3; padding: 20px 24px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; }
+    .modal-head h2 { margin: 0; font-size: 20px; }
+    .close-modal { width: 38px; height: 38px; border: 0; border-radius: 11px; background: #f1f3f7; color: var(--ink); }
+    .compare-table-wrap { padding: 22px; overflow-x: auto; }
+    .compare-table { width: 100%; min-width: 620px; border-collapse: collapse; text-align: center; }
+    .compare-table th, .compare-table td { padding: 14px; border-bottom: 1px solid var(--line); font-size: 12px; }
+    .compare-table th:first-child, .compare-table td:first-child { text-align: right; color: var(--muted); font-weight: 700; }
+    .compare-table img { width: 80px; height: 105px; object-fit: contain; display: block; margin: auto; }
+    .article-wrap { padding: 0 28px 32px; }
+    .article-hero { display: grid; grid-template-columns: 220px 1fr; gap: 28px; align-items: center; padding: 28px 0; }
+    .article-hero-media { min-height: 255px; display: grid; place-items: center; background: linear-gradient(145deg,#f7f8fb,#eceff6); border-radius: 22px; }
+    .article-hero-media img { width: 170px; height: 225px; object-fit: contain; }
+    .article-kicker { color: var(--orange); font-size: 11px; font-weight: 900; }
+    .article-title { margin: 8px 0 10px; font-size: clamp(25px,4vw,38px); direction: ltr; text-align: right; }
+    .article-lead { color: var(--muted); line-height: 1.9; font-size: 14px; }
+    .score-row { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 16px; }
+    .score-chip { background: #f2f4f8; border-radius: 10px; padding: 9px 12px; font-size: 11px; font-weight: 800; }
+    .score-chip strong { color: var(--orange); }
+    .article-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 10px 0 18px; }
+    .editorial-box { border-radius: 18px; padding: 20px; }
+    .editorial-box.pros { background: #ecfbf5; border: 1px solid #c8f2df; }
+    .editorial-box.cons { background: #fff2f1; border: 1px solid #ffd8d5; }
+    .editorial-box h3 { margin: 0 0 13px; font-size: 15px; }
+    .editorial-box ul { margin: 0; padding: 0 18px 0 0; }
+    .editorial-box li { margin: 9px 0; color: var(--ink-2); font-size: 12px; line-height: 1.6; }
+    .recommend-box { background: linear-gradient(135deg,#172440,#293c65); color: #fff; border-radius: 20px; padding: 23px; margin: 16px 0; }
+    .recommend-box h3 { margin: 0 0 10px; }
+    .recommend-box p { color: #ccd3e2; line-height: 1.9; margin: 0; font-size: 13px; }
+    .spec-table { width: 100%; border-collapse: collapse; margin-top: 14px; }
+    .spec-table th, .spec-table td { border-bottom: 1px solid var(--line); padding: 12px 10px; font-size: 12px; }
+    .spec-table th { color: var(--muted); text-align: right; width: 33%; }
+    .article-note { color: var(--muted); font-size: 10px; line-height: 1.7; border-top: 1px solid var(--line); padding-top: 15px; margin-top: 18px; }
+
+    .toast { position: fixed; z-index: 90; top: 95px; left: 20px; background: var(--ink); color: #fff; padding: 12px 16px; border-radius: 12px; box-shadow: var(--shadow); font-size: 12px; transform: translateX(-150%); transition: .25s ease; }
+    .toast.show { transform: translateX(0); }
+
+    @media (max-width: 980px) {
+      nav { display: none; }
+      .menu-btn { display: inline-grid; place-items: center; }
+      .nav { gap: 12px; }
+      .nav-actions { margin-inline-start: auto; }
+      .nav-actions .outline-btn { display: none; }
+      .hero-grid { grid-template-columns: 1fr; text-align: center; }
+      .hero-copy > p, .search-box { margin-inline: auto; }
+      .eyebrow { justify-content: center; }
+      .quick-links, .stats { justify-content: center; }
+      .hero-visual { min-height: 470px; }
+      .device-grid { grid-template-columns: repeat(3,1fr); }
+      .filters { grid-template-columns: 1fr 1fr; }
+      .filters > :first-child { grid-column: 1/-1; }
+      .market-card { grid-template-columns: 1fr; }
+      .market-copy { padding-bottom: 18px; }
+      .market-tiles { padding-top: 18px; }
+    }
+    @media (max-width: 720px) {
+      .top-note { font-size: 10px; }
+      .hero { padding-top: 36px; }
+      h1 { letter-spacing: -1.4px; }
+      .hero-copy > p { font-size: 14px; }
+      .hero-visual { min-height: 390px; }
+      .visual-orbit { width: 350px; }
+      .phone-main { width: 150px; height: 310px; }
+      .phone-side { width: 118px; height: 245px; }
+      .float-pill { padding: 9px 10px; }
+      .pill-1 { right: 0; }.pill-2 { left: 0; }.pill-3 { display: none; }
+      .stats { gap: 18px; }
+      .stat b { font-size: 19px; }
+      .trust-card { grid-template-columns: 1fr 1fr; gap: 14px; }
+      .trust-item { border: 0; justify-content: flex-start; padding: 5px; }
+      .os-gates { grid-template-columns: 1fr; }
+      .device-grid { grid-template-columns: repeat(2,1fr); }
+      .market-copy { padding: 35px 26px 15px; }
+      .market-tiles { padding: 18px 26px 30px; }
+      .roadmap, .footer-grid { grid-template-columns: 1fr; }
+      .footer-col { display: none; }
+      .copyright { gap: 16px; flex-direction: column; }
+    }
+    @media (max-width: 480px) {
+      .container { width: min(100% - 20px,1180px); }
+      .logo-name { font-size: 17px; }
+      .logo-mark { width: 38px; height: 38px; }
+      .nav-actions .primary-btn { padding: 11px 13px; font-size: 11px; }
+      .search-box { padding: 6px; }
+      .search-box button { padding: 12px 13px; }
+      .stats { display: grid; grid-template-columns: repeat(3,1fr); }
+      .device-grid { grid-template-columns: 1fr; }
+      .device-media { min-height: 235px; }
+      .filters { grid-template-columns: 1fr; }
+      .filters > :first-child { grid-column: auto; }
+      .reset-btn { padding: 12px; }
+      .section-head { align-items: start; flex-direction: column; }
+      .market-tiles { grid-template-columns: 1fr; }
+      .market-actions { flex-direction: column; }
+      .compare-tray { align-items: stretch; }
+      .tray-items { display: none; }
+      .article-wrap { padding: 0 16px 24px; }
+      .article-hero { grid-template-columns: 1fr; text-align: center; }
+      .article-title { text-align: center; }
+      .article-hero-media { min-height: 220px; }
+      .article-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-note">نسخة ميدان فون التجريبية — <strong>المواصفات والأسعار المعروضة نموذجية لحين ربط مصدر البيانات المرخّص</strong></div>
+  <header>
+    <div class="container nav">
+      <a class="logo" href="#top" aria-label="ميدان فون">
+        <span class="logo-mark">
+          <svg width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3" stroke="currentColor" stroke-width="2"/><path d="M10 5h4M10 19h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+        <span class="logo-name">ميدان فون<small>MIDANPHONE</small></span>
+      </a>
+      <nav aria-label="التنقل الرئيسي">
+        <a href="#phones">كل الموبايلات</a>
+        <a href="#phones" data-os="iOS">iPhone</a>
+        <a href="#phones" data-os="Android">Android</a>
+        <a href="#market">سوق الموبايلات</a>
+        <a href="#roadmap">كيف نعمل؟</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="icon-btn menu-btn" aria-label="القائمة">☰</button>
+        <button class="outline-btn" id="adminBtn">لوحة التحكم</button>
+        <button class="primary-btn" data-scroll="#market">بيع موبايلك</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">منصة الموبايلات الشاملة</span>
+          <h1>كل الموبايلات<br>في <span>ميدان واحد</span></h1>
+          <p>اعرف المواصفات الحقيقية، قارن بين الإصدارات، تابع الأسعار، وبيع أو اشتري أو بدّل موبايلك بسهولة داخل مصر.</p>
+          <form class="search-box" id="heroSearch">
+            <span class="search-icon">⌕</span>
+            <input id="heroQuery" type="search" placeholder="اكتب اسم الموبايل... مثال: Galaxy أو iPhone" aria-label="ابحث عن موبايل">
+            <button type="submit">ابحث الآن</button>
+          </form>
+          <div class="quick-links"><span>الأكثر بحثًا:</span><button data-query="iPhone">iPhone</button><button data-query="Galaxy">Samsung Galaxy</button><button data-query="Xiaomi">Xiaomi</button><button data-query="Infinix">Infinix</button></div>
+          <div class="stats">
+            <div class="stat"><b>16+</b><span>علامة رئيسية</span></div>
+            <div class="stat"><b>3</b><span>أجهزة في المقارنة</span></div>
+            <div class="stat"><b>24/7</b><span>تحديث تلقائي مخطط</span></div>
+          </div>
+        </div>
+        <div class="hero-visual" aria-label="تصميم توضيحي لموبايلات حديثة">
+          <div class="visual-orbit">
+            <div class="phone phone-side"><div class="screen alt"><span class="island"></span><div class="screen-time"><small>ميدان فون</small>10:09</div></div></div>
+            <div class="phone phone-main"><div class="screen"><span class="island"></span><div class="screen-time"><small>كل الموبايلات</small>12:24</div></div></div>
+            <div class="float-pill pill-1"><em>✓</em><span>مواصفات موثقة<br><small style="color:var(--muted)">مصدر بيانات مرخّص</small></span></div>
+            <div class="float-pill pill-2"><em>⇄</em><span>مقارنة ذكية<br><small style="color:var(--muted)">حتى 3 أجهزة</small></span></div>
+            <div class="float-pill pill-3"><em>ج.م</em><span>أسعار مصر<br><small style="color:var(--muted)">جديد ومستعمل</small></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container trust-strip">
+      <div class="trust-card">
+        <div class="trust-item"><i>◉</i><div><b>مواصفات دقيقة</b><small>معلومات منظمة وقابلة للمقارنة</small></div></div>
+        <div class="trust-item"><i>⇄</i><div><b>مقارنة كاملة</b><small>المميزات والاختلافات بوضوح</small></div></div>
+        <div class="trust-item"><i>⌁</i><div><b>كل الإصدارات</b><small>قديم وحديث في قاعدة واحدة</small></div></div>
+        <div class="trust-item"><i>♢</i><div><b>سوق آمن</b><small>بيع وشراء واستبدال داخل مصر</small></div></div>
+      </div>
+    </div>
+
+    <section id="phones">
+      <div class="container">
+        <div class="section-head">
+          <div><span class="eyebrow">استكشف الأجهزة</span><h2>اختار نظامك وابدأ المقارنة</h2></div>
+          <span class="source-badge">جاهز لربط قاعدة البيانات العالمية</span>
+        </div>
+        <div class="os-gates">
+          <button class="os-card apple" data-os-filter="iOS"><span class="os-icon">●</span><b>عالم iPhone</b><span>كل الأجيال والإصدارات والسعات في قسم مستقل</span></button>
+          <button class="os-card android" data-os-filter="Android"><span class="os-icon">♙</span><b>عالم Android</b><span>Samsung وXiaomi وOPPO وكل الشركات في مكان واحد</span></button>
+        </div>
+        <div class="brands" id="brands" aria-label="اختر العلامة التجارية"></div>
+        <div class="filters">
+          <input class="filter-input" id="deviceSearch" type="search" placeholder="ابحث بالاسم أو الشركة...">
+          <select class="filter-select" id="osFilter" aria-label="نظام التشغيل"><option value="">كل الأنظمة</option><option value="iOS">iOS</option><option value="Android">Android</option></select>
+          <select class="filter-select" id="typeFilter" aria-label="الفئة"><option value="">كل الفئات</option><option value="رائد">رائد</option><option value="متوسط">متوسط</option><option value="اقتصادي">اقتصادي</option><option value="قابل للطي">قابل للطي</option></select>
+          <select class="filter-select" id="sortFilter" aria-label="الترتيب"><option value="featured">الأبرز</option><option value="price-asc">السعر: الأقل أولًا</option><option value="price-desc">السعر: الأعلى أولًا</option><option value="name">الاسم</option></select>
+          <button class="reset-btn" id="resetFilters">مسح الفلاتر</button>
+        </div>
+        <div class="result-bar"><span id="resultCount"></span><span>الأسعار الحالية بيانات تجريبية وليست عرض بيع</span></div>
+        <div class="device-grid" id="deviceGrid"></div>
+      </div>
+    </section>
+
+    <section class="market" id="market">
+      <div class="container">
+        <div class="market-card">
+          <div class="market-copy">
+            <span class="eyebrow" style="color:#ff9d69">سوق ميدان فون</span>
+            <h2>بيع، اشتري أو بدّل<br>وأنت مطمّن</h2>
+            <p>سوق مصري منظم لعرض الموبايلات الجديدة والمستعملة، مع فحص حالة الجهاز وفلترة حسب المحافظة والسعر والضمان.</p>
+            <div class="market-actions"><button class="primary-btn" data-demo="listing">أضف إعلانك مجانًا</button><button class="outline-btn" data-demo="browse">تصفح السوق</button></div>
+          </div>
+          <div class="market-tiles">
+            <div class="market-tile"><i>＋</i><b>بيع موبايلك</b><span>إعلان واضح بالصور والحالة والسعر</span></div>
+            <div class="market-tile"><i>⌕</i><b>اشتري المناسب</b><span>فلاتر دقيقة ومقارنة قبل الشراء</span></div>
+            <div class="market-tile"><i>⇄</i><b>بدّل جهازك</b><span>اعرض جهازك وحدد المطلوب للتبديل</span></div>
+            <div class="market-tile"><i>✓</i><b>إعلانات موثوقة</b><span>نظام مراجعة وبلاغات وتوثيق مخطط</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <div class="container">
+        <div class="section-head"><div><span class="eyebrow">خطة البناء</span><h2>من النسخة التجريبية إلى المنصة الكاملة</h2></div><p>بنية واضحة تضمن السرعة والتحكم الكامل.</p></div>
+        <div class="roadmap">
+          <article class="road-card"><span class="road-num">المرحلة 01 — الحالية</span><h3>الواجهة وتجربة المستخدم</h3><p>هوية ميدان فون، البحث، فلاتر الشركات، فصل iPhone وAndroid، والمقارنة التفاعلية.</p></article>
+          <article class="road-card"><span class="road-num">المرحلة 02</span><h3>البيانات ولوحة التحكم</h3><p>ربط مصدر مرخّص للمواصفات والصور، قاعدة بيانات، ولوحة تحكم لإضافة وتعديل أي جهاز.</p></article>
+          <article class="road-card"><span class="road-num">المرحلة 03</span><h3>السوق والأسعار في مصر</h3><p>حسابات المستخدمين، الإعلانات، البيع والاستبدال، تحديث الأسعار، والمراجعة قبل النشر.</p></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-intro">
+          <a class="logo" href="#top"><span class="logo-mark"><svg width="23" height="23" viewBox="0 0 24 24" fill="none"><rect x="6" y="2" width="12" height="20" rx="3" stroke="currentColor" stroke-width="2"/><path d="M10 5h4M10 19h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span><span class="logo-name">ميدان فون<small style="color:#8e98af">MIDANPHONE</small></span></a>
+          <p>منصة عربية شاملة تساعدك على فهم الموبايلات ومقارنتها واتخاذ قرار الشراء المناسب، مع سوق متخصص داخل مصر.</p>
+        </div>
+        <div class="footer-col"><h4>استكشف</h4><a href="#phones">كل الموبايلات</a><a href="#phones">أحدث الإصدارات</a><a href="#phones">المقارنات</a></div>
+        <div class="footer-col"><h4>سوق الموبايلات</h4><a href="#market">شراء موبايل</a><a href="#market">بيع موبايل</a><a href="#market">استبدال</a></div>
+        <div class="footer-col"><h4>ميدان فون</h4><a href="#roadmap">عن المشروع</a><a href="#roadmap">سياسة المحتوى</a><a href="#roadmap">تواصل معنا</a></div>
+      </div>
+      <div class="copyright"><span>© 2026 ميدان فون — نموذج تجريبي للمرحلة الأولى.</span><span>كل الموبايلات في ميدان واحد</span></div>
+    </div>
+  </footer>
+
+  <div class="compare-tray" id="compareTray"><div class="tray-items" id="trayItems"></div><button class="tray-action" id="openCompare">قارن الآن (<span id="compareCount">0</span>)</button></div>
+  <div class="modal" id="compareModal" role="dialog" aria-modal="true" aria-labelledby="compareTitle">
+    <div class="modal-card"><div class="modal-head"><h2 id="compareTitle">مقارنة الأجهزة</h2><button class="close-modal" id="closeModal" aria-label="إغلاق">✕</button></div><div class="compare-table-wrap" id="compareContent"></div></div>
+  </div>
+  <div class="modal" id="articleModal" role="dialog" aria-modal="true" aria-labelledby="articleModalTitle">
+    <article class="modal-card"><div class="modal-head"><h2 id="articleModalTitle">مراجعة الهاتف</h2><button class="close-modal" id="closeArticle" aria-label="إغلاق">✕</button></div><div class="article-wrap" id="articleContent"></div></article>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const devices = [
+      {id:1, brand:'Apple', name:'iPhone 16 Pro Max', os:'iOS', type:'رائد', price:78500, screen:'6.9″ OLED', chip:'A18 Pro', camera:'48 MP', battery:'4685 mAh', color:'#c7b9a5', accent:'#54483c', badge:'الأكثر طلبًا'},
+      {id:2, brand:'Samsung', name:'Galaxy S25 Ultra', os:'Android', type:'رائد', price:69900, screen:'6.9″ AMOLED', chip:'Snapdragon 8 Elite', camera:'200 MP', battery:'5000 mAh', color:'#aab7c7', accent:'#394a61', badge:'اختيار المحرر'},
+      {id:3, brand:'Xiaomi', name:'Xiaomi 15 Ultra', os:'Android', type:'رائد', price:58900, screen:'6.73″ AMOLED', chip:'Snapdragon 8 Elite', camera:'200 MP', battery:'5410 mAh', color:'#20242a', accent:'#8e2525', badge:'كاميرا قوية'},
+      {id:4, brand:'Google', name:'Pixel 9 Pro XL', os:'Android', type:'رائد', price:52900, screen:'6.8″ OLED', chip:'Google Tensor G4', camera:'50 MP', battery:'5060 mAh', color:'#ddd7ca', accent:'#3d5c7c', badge:'ذكاء Google'},
+      {id:5, brand:'OPPO', name:'Find X8 Pro', os:'Android', type:'رائد', price:54900, screen:'6.78″ AMOLED', chip:'Dimensity 9400', camera:'50 MP Quad', battery:'5910 mAh', color:'#323c53', accent:'#bfc9dd', badge:'شحن سريع'},
+      {id:6, brand:'HONOR', name:'Magic7 Pro', os:'Android', type:'رائد', price:47900, screen:'6.8″ OLED', chip:'Snapdragon 8 Elite', camera:'200 MP', battery:'5850 mAh', color:'#d8d4c5', accent:'#406a6e', badge:'بطارية قوية'},
+      {id:7, brand:'OnePlus', name:'OnePlus 13', os:'Android', type:'رائد', price:45900, screen:'6.82″ AMOLED', chip:'Snapdragon 8 Elite', camera:'50 MP', battery:'6000 mAh', color:'#315d4d', accent:'#d5e7df', badge:'أداء سريع'},
+      {id:8, brand:'vivo', name:'vivo X200 Pro', os:'Android', type:'رائد', price:46900, screen:'6.78″ AMOLED', chip:'Dimensity 9400', camera:'200 MP', battery:'6000 mAh', color:'#2e3546', accent:'#b9c2d6', badge:'تصوير احترافي'},
+      {id:9, brand:'realme', name:'realme 14 Pro+', os:'Android', type:'متوسط', price:23900, screen:'6.83″ OLED', chip:'Snapdragon 7s Gen 3', camera:'50 MP', battery:'6000 mAh', color:'#f2eee4', accent:'#a89578', badge:'قيمة ممتازة'},
+      {id:10, brand:'Infinix', name:'Infinix Note 50 Pro', os:'Android', type:'متوسط', price:13900, screen:'6.78″ AMOLED', chip:'Helio G100', camera:'50 MP', battery:'5200 mAh', color:'#7f9da3', accent:'#273a48', badge:'سعر منافس'},
+      {id:11, brand:'TECNO', name:'Camon 40 Pro', os:'Android', type:'متوسط', price:14900, screen:'6.78″ AMOLED', chip:'Helio G100', camera:'50 MP', battery:'5200 mAh', color:'#c3d9d9', accent:'#3b6570', badge:'جديد'},
+      {id:12, brand:'Nothing', name:'Nothing Phone (2a)', os:'Android', type:'متوسط', price:19900, screen:'6.7″ AMOLED', chip:'Dimensity 7200 Pro', camera:'50 MP', battery:'5000 mAh', color:'#e9e9e9', accent:'#333333', badge:'تصميم مختلف'},
+      {id:13, brand:'Samsung', name:'Galaxy Z Fold6', os:'Android', type:'قابل للطي', price:74900, screen:'7.6″ Foldable', chip:'Snapdragon 8 Gen 3', camera:'50 MP', battery:'4400 mAh', color:'#c7cbd3', accent:'#435168', badge:'قابل للطي'},
+      {id:14, brand:'Apple', name:'iPhone 15', os:'iOS', type:'رائد', price:42900, screen:'6.1″ OLED', chip:'A16 Bionic', camera:'48 MP', battery:'3349 mAh', color:'#9db5c9', accent:'#283e55', badge:'سعر أفضل'},
+      {id:15, brand:'Motorola', name:'Razr 50 Ultra', os:'Android', type:'قابل للطي', price:41900, screen:'6.9″ Foldable', chip:'Snapdragon 8s Gen 3', camera:'50 MP', battery:'4000 mAh', color:'#dfa881', accent:'#6a3b2d', badge:'قابل للطي'},
+      {id:16, brand:'Xiaomi', name:'Redmi Note 14 Pro', os:'Android', type:'متوسط', price:16900, screen:'6.67″ AMOLED', chip:'Dimensity 7300', camera:'200 MP', battery:'5110 mAh', color:'#7b6c91', accent:'#312944', badge:'الأكثر مقارنة'}
+    ];
+    const reviews = {
+      1:{score:'9.2',summary:'هاتف فئة عليا يركز على الأداء القوي، جودة تصوير الفيديو، الشاشة الكبيرة، والتكامل الممتاز مع منظومة Apple. حجمه وسعره يجعلان قرار شرائه مناسبًا لفئة محددة أكثر من كونه اختيارًا للجميع.',pros:['أداء سريع ومستقر بفضل شريحة A18 Pro','من أفضل الهواتف لتصوير الفيديو وصناعة المحتوى','شاشة OLED كبيرة بتردد متكيف حتى 120Hz','دعم طويل وتكامل قوي بين أجهزة Apple'],cons:['سعر مرتفع خصوصًا مع السعات الكبيرة','حجمه كبير ووزنه ملحوظ في الاستخدام الطويل','سرعة الشحن أقل من منافسين أندرويد','لا يدعم بطاقة ذاكرة ولا يأتي عادةً مع شاحن'],bestFor:'ننصح به لصنّاع المحتوى، ومحبي iOS، ومن يريد هاتفًا قويًا يحتفظ بقيمته لسنوات. لا ننصح بالترقية إليه من جيل Pro Max قريب إلا إذا كانت الكاميرا أو الشاشة الأكبر أولوية حقيقية.'},
+      2:{score:'9.3',summary:'هاتف أندرويد متكامل يجمع شاشة ممتازة، أداء رائد، كاميرات متعددة الاستخدام، وقلم S Pen. هو أقرب إلى جهاز عمل وترفيه متكامل، لكنك تدفع سعرًا مرتفعًا مقابل هذه المرونة.',pros:['شاشة AMOLED ممتازة وواضحة تحت الإضاءة','نظام كاميرات مرن مع تقريب بصري قوي','أداء رائد ومناسب للألعاب والعمل الثقيل','قلم S Pen ودعم برمجي طويل'],cons:['كبير الحجم ومرتفع السعر','الشحن السلكي ليس الأسرع في الفئة','قلم S Pen فقد بعض وظائف البلوتوث','تحسينات محدودة لمن يملك الجيل السابق'],bestFor:'ننصح به لمن يريد أفضل تجربة أندرويد شاملة، خصوصًا للتصوير والإنتاجية والرسم. أصحاب S24 Ultra لا يحتاجون الترقية غالبًا إلا عند وجود عرض استبدال قوي.'},
+      3:{score:'9.1',summary:'هاتف موجه لعشاق التصوير، مع نظام كاميرات Leica قوي وشاشة عالية الدقة وأداء رائد. يتفوق بصريًا، لكن بروز الكاميرا الكبير والوزن وتجربة الواجهة قد لا يناسبون الجميع.',pros:['كاميرا رئيسية كبيرة ونظام تقريب قوي','شاشة WQHD+ ساطعة بتردد 120Hz','أداء رائد وشحن سريع','خيارات تصوير احترافية واسعة'],cons:['وحدة الكاميرات كبيرة والوزن مرتفع','السعر قريب من أغلى المنافسين','واجهة النظام تحتوي تطبيقات وخيارات كثيرة','التوفر والضمان يختلفان حسب السوق'],bestFor:'ننصح به للمصور الذي يريد مرونة وعدسات متعددة قبل أي شيء آخر. من يريد هاتفًا خفيفًا أو تجربة نظام شديدة البساطة سيجد بدائل أنسب.'},
+      4:{score:'8.8',summary:'هاتف يركز على التصوير الحسابي وخصائص Google الذكية مع شاشة ممتازة وتجربة أندرويد نظيفة. أداؤه اليومي قوي، لكنه ليس الخيار الأول للألعاب الثقيلة أو أسرع شحن.',pros:['كاميرات ثابتة النتائج وسهلة الاستخدام','خصائص ذكاء اصطناعي مفيدة وتجربة أندرويد نظيفة','شاشة كبيرة ممتازة ودعم برمجي طويل','تصميم مميز وجودة تصنيع قوية'],cons:['الأداء الرسومي أقل من أقوى شرائح Snapdragon','الشحن أبطأ من بعض المنافسين','التوفر والصيانة في مصر قد يكونان محدودين','بعض خصائص Google قد تختلف حسب اللغة والمنطقة'],bestFor:'ننصح به لمحبي التصوير السريع وتجربة Google المباشرة والدعم الطويل. اللاعب الثقيل أو من يحتاج صيانة محلية واسعة يفضّل خيارًا آخر.'},
+      5:{score:'8.9',summary:'فلاجشيب متوازن يهتم بالكاميرات والبطارية والشحن مع تصميم أنيق. يقدم قيمة قوية إذا كان متاحًا بضمان محلي، بينما الواجهة المنحنية وسياسة التحديثات قد تؤثر في القرار.',pros:['بطارية كبيرة وعمر استخدام قوي','كاميرات متعددة جيدة خصوصًا البورتريه والتقريب','شحن سريع وشاشة عالية الجودة','أداء قوي للاستخدام والألعاب'],cons:['حجم كبير وشاشة منحنية لا تناسب الجميع','توفر الإكسسوارات قد يختلف','تجربة ColorOS مزدحمة نسبيًا','إعادة البيع أقل من Apple وSamsung'],bestFor:'ننصح به لمن يريد هاتفًا رائدًا متوازنًا ببطارية قوية وتصوير بورتريه ممتاز، بشرط شراء نسخة بضمان رسمي واضح.'},
+      6:{score:'8.9',summary:'هاتف رائد يجمع شاشة مريحة، كاميرا تقريب عالية الدقة، بطارية كبيرة، وميزات ذكية. يقدم مواصفات قوية، لكن تجربة الكاميرا والبرمجيات تحتاج تقييمًا حسب تفضيلات المستخدم.',pros:['شاشة OLED عالية السطوع ومريحة للعين','بطارية كبيرة وشحن سريع','كاميرا تقريب 200MP مرنة','أداء رائد وتصميم فاخر'],cons:['حجم كبير ووزن ملحوظ','معالجة الصور قد لا تكون ثابتة دائمًا','توافر بعض الميزات يختلف حسب المنطقة','قيمة إعادة البيع متوسطة'],bestFor:'ننصح به لمن يهتم بالشاشة والبطارية والتقريب ويريد بديلًا قويًا لسامسونج. قارن السعر والضمان قبل الشراء.'},
+      7:{score:'9.0',summary:'أحد أفضل هواتف الأداء والبطارية، ويقدم شاشة ممتازة وشحنًا سريعًا وتجربة نظام سلسة. الكاميرات جيدة جدًا، لكنها ليست السبب الوحيد لاختياره أمام أقوى هواتف التصوير.',pros:['أداء رائد وسلاسة ممتازة','بطارية 6000mAh وعمر استخدام قوي','شحن سريع وشاشة عالية الجودة','واجهة OxygenOS سريعة وغنية'],cons:['خدمة ما بعد البيع محدودة في بعض الأسواق','الكاميرا أقل ثباتًا من أفضل المنافسين','مقاومة الماء والخصائص تختلف حسب النسخة','إعادة البيع ليست الأفضل'],bestFor:'ننصح به للاعبين والمستخدم الثقيل الذي يريد بطارية وشحنًا سريعًا بسعر أقل من بعض المنافسين. محب التصوير وحده يقارن مع Xiaomi وSamsung.'},
+      8:{score:'9.0',summary:'هاتف تصوير قوي، خصوصًا في البورتريه والتقريب، مع بطارية كبيرة وأداء رائد. جاذبيته الأساسية للمهتم بالكاميرا، بينما التوفر المحلي والواجهة عاملان مهمان قبل الشراء.',pros:['كاميرا تقريب 200MP ممتازة للبورتريه','بطارية كبيرة وأداء رائد','شاشة AMOLED ساطعة وسلسة','تثبيت وتصوير ليلي قويان'],cons:['توفر محدود في بعض الأسواق','واجهة النظام تحتاج تعودًا','وحدة كاميرات كبيرة','الصيانة والإكسسوارات قد تكون أصعب'],bestFor:'ننصح به لعشاق البورتريه والتقريب ممن يستطيعون شراء نسخة موثوقة بضمان. للمستخدم العادي توجد خيارات أسهل دعمًا.'},
+      9:{score:'8.4',summary:'هاتف فئة متوسطة يركز على التصميم والبطارية وكاميرا التقريب. يمنح تجربة جيدة مقابل السعر، لكن المعالج ليس مخصصًا لأثقل الألعاب والتطبيقات الاحترافية.',pros:['بطارية كبيرة وعمر استخدام طويل','شاشة OLED كبيرة وسلسة','كاميرا تقريب مفيدة في الفئة','تصميم مميز ومقاومة جيدة'],cons:['الأداء أقل من هواتف الأداء المتخصصة','بعض التطبيقات المثبتة مسبقًا','الكاميرا الليلية ليست بمستوى الفلاجشيب','السعر يجب مقارنته بعروض Poco وRedmi'],bestFor:'ننصح به لمن يريد تصميمًا جيدًا وبطارية وتصوير بورتريه في الفئة المتوسطة. اللاعب الثقيل يبحث عن معالج أقوى.'},
+      10:{score:'8.2',summary:'هاتف متوسط يركز على الشاشة والتصميم والشحن بسعر منافس. مناسب للاستخدام اليومي، لكن المعالج والكاميرات الثانوية يضعانه أسفل الهواتف الأقوى في الألعاب والتصوير.',pros:['شاشة AMOLED بتردد مرتفع','تصميم أنيق وشحن سريع','قيمة جيدة عند السعر المناسب','مساحة تخزين مناسبة عادةً'],cons:['المعالج متوسط وليس للألعاب الثقيلة','الكاميرات الثانوية محدودة','تحديثات البرمجيات أقصر من Samsung','وجود تطبيقات مثبتة مسبقًا'],bestFor:'ننصح به للاستخدام اليومي والسوشيال والمشاهدة مع ميزانية محددة. قارن نسخ الذاكرة والضمان لأنهما يؤثران في القيمة.'},
+      11:{score:'8.1',summary:'هاتف متوسط يعطي الأولوية للشاشة والتصوير الأساسي والتصميم. يقدم مواصفات جذابة على الورق، ويحتاج سعرًا مناسبًا وضمانًا رسميًا ليصبح توصية قوية.',pros:['شاشة AMOLED سلسة','كاميرا رئيسية جيدة نهارًا','تصميم مميز ومقاومة محسّنة','بطارية مناسبة للاستخدام اليومي'],cons:['الأداء متوسط في الألعاب الثقيلة','الكاميرات الإضافية محدودة','تجربة النظام تحتوي إضافات كثيرة','قيمة إعادة البيع أقل من المنافسين الأشهر'],bestFor:'ننصح به لمن يفضل التصميم والشاشة والكاميرا الرئيسية على قوة الألعاب. لا تشتره قبل مقارنته بهواتف Redmi وrealme في السعر نفسه.'},
+      12:{score:'8.5',summary:'هاتف متوسط مختلف في التصميم وتجربة النظام النظيفة، مع شاشة جيدة وأداء متزن. لا يملك كاميرا تقريب أو شحنًا شديد السرعة، لكنه يقدم شخصية واضحة وتجربة سلسة.',pros:['تصميم Glyph مميز','واجهة Nothing OS نظيفة وسلسة','شاشة AMOLED جيدة وبطارية قوية','أداء يومي متوازن'],cons:['لا توجد كاميرا تقريب بصري','الشحن ليس الأسرع','خدمة ما بعد البيع محدودة في مصر','التصميم الشفاف ليس مناسبًا لكل الأذواق'],bestFor:'ننصح به لمن يريد أندرويد نظيفًا وتصميمًا مختلفًا ويقبل الاستيراد أو الدعم المحدود. الباحث عن أقصى أداء للألعاب لديه خيارات أخرى.'},
+      13:{score:'8.7',summary:'هاتف قابل للطي يحول الهاتف إلى شاشة عمل كبيرة، مع برمجيات قوية وتعدد مهام ممتاز. ثمنه المرتفع وسمكه وصيانة الشاشة القابلة للطي عوامل يجب حسابها بجدية.',pros:['شاشة داخلية كبيرة ممتازة للعمل','أفضل تجربة تعدد مهام في الفئة','جودة تصنيع ودعم برمجي قويان','مقاومة ماء وتصميم أنحف من أجيال سابقة'],cons:['سعر مرتفع جدًا','الكاميرات أقل من S Ultra بالسعر نفسه','بطارية وشحن متوسطان','تكلفة صيانة الشاشة الداخلية مرتفعة'],bestFor:'ننصح به لرجل الأعمال أو المستخدم الذي سيستفيد فعلًا من الشاشة الكبيرة وتعدد المهام. للاستخدام التقليدي، هاتف رائد عادي أكثر عملية وقيمة.'},
+      14:{score:'8.6',summary:'آيفون متوازن بحجم مريح وأداء قوي وكاميرا موثوقة. يظل خيارًا جيدًا عند انخفاض سعره، لكن شاشة 60Hz وغياب التقريب البصري المتقدم يقللان جاذبيته أمام أجهزة أحدث.',pros:['أداء قوي وتجربة iOS مستقرة','كاميرا رئيسية موثوقة وفيديو ممتاز','حجم ووزن مناسبان لمعظم المستخدمين','دعم طويل وقيمة إعادة بيع جيدة'],cons:['شاشة 60Hz فقط','الشحن متوسط ولا يوجد شاحن غالبًا','لا توجد كاميرا Telephoto','سعره قد يقترب من أجهزة أحدث'],bestFor:'ننصح به لمن يريد دخول منظومة Apple بهاتف متوازن، بشرط فرق سعر واضح عن الجيل الأحدث. محب الشاشة السلسة يختار Pro أو أندرويد 120Hz.'},
+      15:{score:'8.4',summary:'هاتف صدفي قابل للطي يجمع شاشة خارجية مفيدة وتصميمًا مدمجًا عند الإغلاق. جاذبيته في الشكل وسهولة الحمل، لا في أفضل بطارية أو أقوى كاميرات.',pros:['تصميم مدمج وأنيق','شاشة خارجية كبيرة ومفيدة','شاشة داخلية سلسة وأداء جيد','كاميرا رئيسية مناسبة'],cons:['البطارية متوسطة مقارنة بهاتف تقليدي','لا توجد كاميرا واسعة جدًا في بعض التكوينات','الشاشة القابلة للطي تحتاج عناية','السعر مرتفع مقابل المواصفات'],bestFor:'ننصح به لمن يريد هاتفًا أنيقًا صغيرًا في الجيب ويقدّر الشاشة الخارجية. اللاعب أو المصور الثقيل سيجد هاتفًا تقليديًا أقوى.'},
+      16:{score:'8.6',summary:'هاتف متوسط قوي في الشاشة والكاميرا الرئيسية والبطارية، ويقدم قيمة جيدة عندما يكون سعره تنافسيًا. توجد نسخ متعددة تختلف في المعالج والاتصال، لذا يجب التأكد من النسخة قبل الشراء.',pros:['شاشة AMOLED عالية الدقة والسلاسة','كاميرا رئيسية 200MP جيدة نهارًا','بطارية مناسبة ومقاومة محسّنة','قيمة قوية في الفئة المتوسطة'],cons:['اختلاف المواصفات بين نسخ 4G و5G والمناطق','الكاميرات الثانوية عادية','واجهة النظام تحتوي تطبيقات مسبقة','الأداء ليس الأفضل للألعاب الثقيلة'],bestFor:'ننصح به لمن يريد شاشة ممتازة وكاميرا رئيسية وبطارية بسعر متوسط. تحقّق بدقة من رقم النسخة والمعالج والضمان قبل الدفع.'}
+    };
+    const allBrands = ['الكل','Apple','Samsung','Xiaomi','OPPO','realme','vivo','HONOR','Huawei','OnePlus','Google','Motorola','Nokia','Infinix','TECNO','itel','Nothing'];
+    const state = { brand:'الكل', query:'', os:'', type:'', sort:'featured', compare:[] };
+    const el = id => document.getElementById(id);
+    const fmt = n => new Intl.NumberFormat('ar-EG').format(n) + ' ج.م';
+    const escapeHtml = s => String(s).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+
+    function phoneSvg(device) {
+      const label = escapeHtml(device.brand.slice(0,8));
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 250"><defs><linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${device.color}"/><stop offset="1" stop-color="${device.accent}"/></linearGradient><filter id="s"><feDropShadow dx="0" dy="10" stdDeviation="8" flood-opacity=".25"/></filter></defs><g filter="url(#s)"><rect x="28" y="9" width="124" height="226" rx="24" fill="url(#b)" stroke="#111827" stroke-width="5"/><rect x="37" y="19" width="106" height="206" rx="17" fill="#121b31"/><circle cx="90" cy="29" r="4" fill="#02050a"/><path d="M38 159C66 119 95 140 142 67V224H38Z" fill="${device.color}" opacity=".78"/><path d="M38 116C70 77 101 104 142 48V224H38Z" fill="${device.accent}" opacity=".38"/><rect x="63" y="27" width="54" height="12" rx="6" fill="#050810"/><text x="90" y="200" text-anchor="middle" font-family="Arial" font-size="10" fill="white" opacity=".88">${label}</text></g></svg>`;
+      return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+    }
+
+    function renderBrands() {
+      el('brands').innerHTML = allBrands.map(b => `<button class="brand-chip ${state.brand===b?'active':''}" data-brand="${b}">${b}</button>`).join('');
+      document.querySelectorAll('[data-brand]').forEach(btn => btn.onclick = () => { state.brand=btn.dataset.brand; renderBrands(); renderDevices(); });
+    }
+
+    function filteredDevices() {
+      const q = state.query.trim().toLowerCase();
+      let list = devices.filter(d => (state.brand==='الكل'||d.brand===state.brand) && (!state.os||d.os===state.os) && (!state.type||d.type===state.type) && (!q||`${d.brand} ${d.name}`.toLowerCase().includes(q)));
+      if(state.sort==='price-asc') list.sort((a,b)=>a.price-b.price);
+      if(state.sort==='price-desc') list.sort((a,b)=>b.price-a.price);
+      if(state.sort==='name') list.sort((a,b)=>a.name.localeCompare(b.name));
+      return list;
+    }
+
+    function renderDevices() {
+      const list = filteredDevices();
+      el('resultCount').textContent = `عرض ${list.length} جهازًا من البيانات التجريبية`;
+      el('deviceGrid').innerHTML = list.length ? list.map(d => `
+        <article class="device-card">
+          <div class="device-media"><span class="badge ${d.id%4===0?'green':''}">${d.badge}</span><button class="favorite" data-fav="${d.id}" aria-label="إضافة للمفضلة">♡</button><img class="phone-art" src="${phoneSvg(d)}" alt="رسم توضيحي مؤقت لجهاز ${escapeHtml(d.name)}"></div>
+          <div class="device-body"><span class="brand-label">${d.brand} • ${d.type}</span><h3>${escapeHtml(d.name)}</h3>
+          <div class="specs"><span class="spec">الشاشة<b>${d.screen}</b></span><span class="spec">المعالج<b>${d.chip}</b></span><span class="spec">الكاميرا<b>${d.camera}</b></span><span class="spec">البطارية<b>${d.battery}</b></span></div>
+          <button class="review-btn" data-review="${d.id}">اقرأ المراجعة الكاملة ←</button>
+          <div class="price-row"><span class="price"><small>سعر تجريبي يبدأ من</small><b>${fmt(d.price)}</b></span><button class="compare-btn ${state.compare.includes(d.id)?'active':''}" data-compare="${d.id}">${state.compare.includes(d.id)?'تمت الإضافة ✓':'أضف للمقارنة'}</button></div></div>
+        </article>`).join('') : `<div class="empty"><b>لم نجد أجهزة مطابقة</b>جرّب تغيير الفلاتر، أو انتظر ربط قاعدة الهواتف العالمية لإظهار كل الإصدارات.</div>`;
+      document.querySelectorAll('[data-compare]').forEach(btn => btn.onclick = () => toggleCompare(Number(btn.dataset.compare)));
+      document.querySelectorAll('[data-review]').forEach(btn => btn.onclick = () => openArticle(Number(btn.dataset.review)));
+      document.querySelectorAll('[data-fav]').forEach(btn => btn.onclick = () => { btn.classList.toggle('active'); btn.textContent = btn.classList.contains('active') ? '♥' : '♡'; showToast(btn.classList.contains('active')?'تمت الإضافة إلى المفضلة':'تمت الإزالة من المفضلة'); });
+    }
+
+    function toggleCompare(id) {
+      const i=state.compare.indexOf(id);
+      if(i>-1) state.compare.splice(i,1);
+      else if(state.compare.length<3) state.compare.push(id);
+      else return showToast('يمكنك مقارنة 3 أجهزة كحد أقصى');
+      renderDevices(); renderTray();
+    }
+    function renderTray() {
+      const chosen=state.compare.map(id=>devices.find(d=>d.id===id));
+      el('compareTray').classList.toggle('show',chosen.length>0);
+      el('compareCount').textContent=chosen.length;
+      el('trayItems').innerHTML=chosen.map(d=>`<span class="tray-item">${escapeHtml(d.name)} <button data-remove="${d.id}">✕</button></span>`).join('');
+      document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>toggleCompare(Number(b.dataset.remove)));
+    }
+    function openCompare() {
+      if(state.compare.length<2) return showToast('اختر جهازين على الأقل لبدء المقارنة');
+      const chosen=state.compare.map(id=>devices.find(d=>d.id===id));
+      const rows=[['الشركة',d=>d.brand],['نظام التشغيل',d=>d.os],['الفئة',d=>d.type],['الشاشة',d=>d.screen],['المعالج',d=>d.chip],['الكاميرا',d=>d.camera],['البطارية',d=>d.battery],['السعر التجريبي',d=>fmt(d.price)]];
+      el('compareContent').innerHTML=`<table class="compare-table"><thead><tr><th>الجهاز</th>${chosen.map(d=>`<th><img src="${phoneSvg(d)}" alt=""><span style="direction:ltr;display:block">${escapeHtml(d.name)}</span></th>`).join('')}</tr></thead><tbody>${rows.map(([label,get])=>`<tr><td>${label}</td>${chosen.map(d=>`<td>${get(d)}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+      el('compareModal').classList.add('open'); document.body.style.overflow='hidden';
+    }
+    function closeCompare(){ el('compareModal').classList.remove('open'); document.body.style.overflow=''; }
+    function openArticle(id) {
+      const d=devices.find(x=>x.id===id), r=reviews[id];
+      if(!d||!r) return;
+      el('articleModalTitle').textContent=`مراجعة ${d.name}`;
+      el('articleContent').innerHTML=`
+        <div class="article-hero">
+          <div class="article-hero-media"><img src="${phoneSvg(d)}" alt="رسم مؤقت لجهاز ${escapeHtml(d.name)}"></div>
+          <div><span class="article-kicker">مراجعة ميدان فون • ${d.type}</span><h1 class="article-title">${escapeHtml(d.name)}</h1><p class="article-lead">${r.summary}</p>
+          <div class="score-row"><span class="score-chip">تقييمنا <strong>${r.score}/10</strong></span><span class="score-chip">النظام: ${d.os}</span><span class="score-chip">الفئة: ${d.type}</span></div></div>
+        </div>
+        <h2>مميزات وعيوب ${escapeHtml(d.name)}</h2>
+        <div class="article-grid">
+          <section class="editorial-box pros"><h3>✓ أهم المميزات</h3><ul>${r.pros.map(x=>`<li>${x}</li>`).join('')}</ul></section>
+          <section class="editorial-box cons"><h3>✕ أبرز العيوب</h3><ul>${r.cons.map(x=>`<li>${x}</li>`).join('')}</ul></section>
+        </div>
+        <section class="recommend-box"><h3>هل ننصح بشرائه؟</h3><p>${r.bestFor}</p></section>
+        <h2>جدول المواصفات الأساسية</h2>
+        <table class="spec-table"><tbody>
+          <tr><th>الشركة</th><td>${d.brand}</td></tr><tr><th>نظام التشغيل</th><td>${d.os}</td></tr><tr><th>الفئة</th><td>${d.type}</td></tr>
+          <tr><th>الشاشة</th><td>${d.screen}</td></tr><tr><th>المعالج</th><td>${d.chip}</td></tr><tr><th>الكاميرا الرئيسية</th><td>${d.camera}</td></tr><tr><th>البطارية</th><td>${d.battery}</td></tr>
+          <tr><th>السعر المعروض</th><td>${fmt(d.price)} — سعر تجريبي غير ملزم</td></tr>
+        </tbody></table>
+        <p class="article-note">ملاحظة تحريرية: هذه مراجعة أولية مبنية على المواصفات المعلنة وموضع الجهاز في السوق وليست اختبارًا معمليًا. ستُستبدل الرسمة بصورة المنتج المرخّصة، ويُستكمل جدول المواصفات والأسعار والمصادر تلقائيًا بعد ربط قاعدة البيانات العالمية.</p>`;
+      el('articleModal').classList.add('open'); document.body.style.overflow='hidden';
+    }
+    function closeArticle(){ el('articleModal').classList.remove('open'); document.body.style.overflow=''; }
+    function applyOs(os){ state.os=os; el('osFilter').value=os; location.hash='phones'; renderDevices(); }
+    function showToast(message){ const t=el('toast'); t.textContent=message; t.classList.add('show'); clearTimeout(window.toastTimer); window.toastTimer=setTimeout(()=>t.classList.remove('show'),2300); }
+    function resetFilters(){ Object.assign(state,{brand:'الكل',query:'',os:'',type:'',sort:'featured'}); el('deviceSearch').value=''; el('osFilter').value=''; el('typeFilter').value=''; el('sortFilter').value='featured'; renderBrands(); renderDevices(); }
+
+    el('heroSearch').onsubmit=e=>{ e.preventDefault(); state.query=el('heroQuery').value; el('deviceSearch').value=state.query; location.hash='phones'; renderDevices(); };
+    document.querySelectorAll('[data-query]').forEach(b=>b.onclick=()=>{ el('heroQuery').value=b.dataset.query; el('heroSearch').requestSubmit(); });
+    document.querySelectorAll('[data-os-filter]').forEach(b=>b.onclick=()=>applyOs(b.dataset.osFilter));
+    document.querySelectorAll('nav [data-os]').forEach(a=>a.onclick=()=>applyOs(a.dataset.os));
+    document.querySelectorAll('[data-scroll]').forEach(b=>b.onclick=()=>document.querySelector(b.dataset.scroll).scrollIntoView());
+    el('deviceSearch').oninput=e=>{state.query=e.target.value;renderDevices();};
+    el('osFilter').onchange=e=>{state.os=e.target.value;renderDevices();};
+    el('typeFilter').onchange=e=>{state.type=e.target.value;renderDevices();};
+    el('sortFilter').onchange=e=>{state.sort=e.target.value;renderDevices();};
+    el('resetFilters').onclick=resetFilters;
+    el('openCompare').onclick=openCompare; el('closeModal').onclick=closeCompare;
+    el('compareModal').onclick=e=>{if(e.target===el('compareModal'))closeCompare();};
+    el('closeArticle').onclick=closeArticle;
+    el('articleModal').onclick=e=>{if(e.target===el('articleModal'))closeArticle();};
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCompare();closeArticle();}});
+    el('adminBtn').onclick=()=>showToast('لوحة التحكم ستكون في المرحلة الثانية');
+    document.querySelectorAll('[data-demo]').forEach(b=>b.onclick=()=>showToast('هذه الخاصية ستعمل عند إطلاق سوق ميدان فون'));
+    document.querySelector('.menu-btn').onclick=()=>showToast('الروابط متاحة داخل الصفحة الحالية');
+    renderBrands(); renderDevices(); renderTray();
+  </script>
+</body>
+</html>
